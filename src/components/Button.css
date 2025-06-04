@@ -1,0 +1,45 @@
+/* Base Button Styles */
+button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: #6366f1; /* Indigo-500 */
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #4f46e5; /* Indigo-600 */
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  background-color: #c7d2fe; /* Indigo-200 */
+  cursor: not-allowed;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: #f3f4f6; /* Gray-100 */
+  color: #1f2937; /* Gray-800 */
+  border: 1px solid #d1d5db; /* Gray-300 */
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb; /* Gray-200 */
+  transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+  background-color: #f9fafb; /* Gray-50 */
+  color: #9ca3af; /* Gray-400 */
+  cursor: not-allowed;
+  border-color: #e5e7eb;
+}
