@@ -7,8 +7,9 @@ const LandingScreen = () => {
     <div className="screen landing-screen">
       <h1 className="welcome-title">Welcome to PopX</h1>
       <p className="welcome-subtitle">
-        Lorem ipsum dolor sit amet,<br />
-        consectetur adipiscing elit,
+        Start where you are.<br />
+        Use what you have.<br />
+        Do what you can.
       </p>
       <div className="button-container">
         <button className="btn-primary" onClick={() => navigate('/signup')}>

@@ -37,9 +37,10 @@ const ProfileScreen = () => {
 
         <div className="profile-description">
           <p>
-            Lorem Ipsum Dolor Sit Amet, Consectetur Sadipscing 
-            Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut 
-            Labore Et Dolore Magna Aliquyam Erat, Sed Diam
+            Welcome to your account dashboard. Here you can manage your 
+personal information, update your preferences, and customize 
+your experience. Keep your details current to ensure the best 
+service and security for your account.
           </p>
         </div>
       </div>

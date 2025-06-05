@@ -1,10 +1,17 @@
-// Simple user management utilities
+// src/utils/userManager.js
+
+const STORAGE_KEY = 'popx_users';
+
+export const getUsers = () => {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : {};
+};
+
 export const saveUser = (userData) => {
   try {
     const users = getUsers();
     users[userData.email] = userData;
-    // In a real app, you'd store this in memory or use React state
-    // localStorage is not available in Claude artifacts
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
     return true;
   } catch (error) {
     console.error('Error saving user:', error);
@@ -22,16 +29,11 @@ export const getUser = (email) => {
   }
 };
 
-export const getUsers = () => {
-  // In a real app, this would be from localStorage or an API
-  // For demo purposes, return empty object
-  return {};
-};
-
 export const deleteUser = (email) => {
   try {
     const users = getUsers();
     delete users[email];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
     return true;
   } catch (error) {
     console.error('Error deleting user:', error);

@@ -1,45 +1,48 @@
+// src/screens/SignupScreen.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
-import RadioGroup from '../components/RadioGroup';
 import Button from '../components/Button';
-import { validateForm } from '../utils/validation';
-import { saveUser } from '../utils/userManager';
+import { saveUser, getUser } from '../utils/userManager';
 
 const SignupScreen = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phoneNumber: '',
-    email: '',
-    password: '',
-    companyName: '',
-    isAgency: 'yes'
-  });
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [isAgency, setIsAgency] = useState('');
+  const [error, setError] = useState('');
 
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: null }));
-    }
-  };
-
-  const handleSubmit = () => {
-    const validationErrors = validateForm(formData);
-    
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+  const handleSignup = () => {
+    if (!fullName || !phoneNumber || !email || !password || !isAgency) {
+      setError('Please fill all required fields.');
       return;
     }
 
-    // Save user data
-    saveUser(formData);
+    const existingUser = getUser(email);
+    if (existingUser) {
+      setError('User already exists.');
+      return;
+    }
 
-    // ✅ Navigate to profile screen
-    navigate('/profile', { state: formData });
+    const newUser = {
+      fullName,
+      phoneNumber,
+      email,
+      password,
+      companyName,
+      isAgency,
+    };
+
+    const success = saveUser(newUser);
+    if (success) {
+      navigate('/profile', { state: newUser });
+    } else {
+      setError('Error saving user. Please try again.');
+    }
   };
 
   return (
@@ -50,62 +53,75 @@ const SignupScreen = () => {
       </div>
 
       <FormInput
-        label="Full Name"
+        label="Full Name*"
+        type="text"
         placeholder="Marry Doe"
-        value={formData.fullName}
-        onChange={(value) => handleInputChange('fullName', value)}
+        value={fullName}
+        onChange={setFullName}
         required
-        error={errors.fullName}
       />
-
       <FormInput
-        label="Phone number"
-        placeholder="1234567890"
-        value={formData.phoneNumber}
-        onChange={(value) => handleInputChange('phoneNumber', value)}
+        label="Phone number*"
+        type="tel"
+        placeholder="9876543210"
+        value={phoneNumber}
+        onChange={setPhoneNumber}
         required
-        error={errors.phoneNumber}
       />
-
       <FormInput
-        label="Email address"
+        label="Email address*"
         type="email"
         placeholder="marry@example.com"
-        value={formData.email}
-        onChange={(value) => handleInputChange('email', value)}
+        value={email}
+        onChange={setEmail}
         required
-        error={errors.email}
       />
-
       <FormInput
-        label="Password"
+        label="Password*"
         type="password"
         placeholder="********"
-        value={formData.password}
-        onChange={(value) => handleInputChange('password', value)}
+        value={password}
+        onChange={setPassword}
         required
-        error={errors.password}
       />
-
       <FormInput
         label="Company name"
-        placeholder="Company Inc."
-        value={formData.companyName}
-        onChange={(value) => handleInputChange('companyName', value)}
+        type="text"
+        placeholder="ABC Pvt Ltd"
+        value={companyName}
+        onChange={setCompanyName}
       />
 
-      <RadioGroup
-        label="Are you an Agency?"
-        options={[
-          { label: 'Yes', value: 'yes' },
-          { label: 'No', value: 'no' }
-        ]}
-        value={formData.isAgency}
-        onChange={(value) => handleInputChange('isAgency', value)}
-      />
+      <div className="form-group">
+        <label>Are you an Agency?*</label>
+        <div style={{ display: 'flex', gap: '20px', marginTop: '8px' }}>
+          <label>
+            <input
+              type="radio"
+              name="agency"
+              value="Yes"
+              checked={isAgency === 'Yes'}
+              onChange={(e) => setIsAgency(e.target.value)}
+            />
+            Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="agency"
+              value="No"
+              checked={isAgency === 'No'}
+              onChange={(e) => setIsAgency(e.target.value)}
+            />
+            No
+          </label>
+        </div>
+      </div>
 
-      <div className="form-footer">
-        <Button onClick={handleSubmit}>
+      {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
+      <div className="form-footer" style={{ marginTop: '20px' }}>
+        <Button onClick={handleSignup}>
           Create Account
         </Button>
       </div>

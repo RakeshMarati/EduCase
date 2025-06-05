@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingScreen from './screens/LandingScreen';
-import LoginScreen from './screens/LoginScreen';
+
 import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import Login from "./components/Login"
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingScreen />} />
-          <Route path="/login" element={<LoginScreen />} />
+          <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<SignupScreen />} />
           <Route path="/profile" element={<ProfileScreen />} />
         </Routes>
